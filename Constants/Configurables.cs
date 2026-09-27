@@ -12,5 +12,5 @@ public static class Configurables
     public const int MachineCount = 2;
     public const int MaximumOrderQuantity = 20;
     public const int RestockIntervalMinutes = 5;
-    public static readonly TimeSpan DashboardRefreshInterval = TimeSpan.FromSeconds(1);
+    public static readonly TimeSpan LiveMonitorRefreshInterval = TimeSpan.FromSeconds(1);
 }

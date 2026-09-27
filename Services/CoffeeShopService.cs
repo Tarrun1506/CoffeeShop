@@ -160,25 +160,6 @@ public sealed class CoffeeShopService : ICoffeeShopService
     public Task<IReadOnlyList<InventoryItem>> GetInventoryAsync(CancellationToken ct = default) => _inventory.GetAllAsync(ct);
     public async Task RestockAsync(CancellationToken ct = default) { await _inventory.RestockAsync(ct); _logger.Log("Inventory", "Inventory restocked by admin."); }
 
-    public async Task<CoffeeShopSnapshot> GetDashboardSnapshotAsync(CancellationToken ct = default)
-    {
-        IReadOnlyList<Order> orders = await _orders.GetAllAsync(ct);
-        IReadOnlyList<CoffeeMachine> machines = await _machines.GetAllAsync(ct);
-        return new CoffeeShopSnapshot
-        {
-            TotalOrders = orders.Count,
-            PlacedOrders = orders.Count(o => o.Status == OrderStatus.Placed),
-            PreparingOrders = orders.Count(o => o.Status == OrderStatus.Preparing),
-            ReadyOrders = orders.Count(o => o.Status == OrderStatus.Ready),
-            CompletedOrders = orders.Count(o => o.Status == OrderStatus.Completed),
-            CancelledOrders = orders.Count(o => o.Status == OrderStatus.Cancelled),
-            Machines = machines,
-            ActiveOrders = orders.Where(o => o.Status is OrderStatus.Placed or OrderStatus.Preparing or OrderStatus.Ready).OrderBy(o => o.CreatedAt).Take(3).ToList(),
-            LatestReadyOrder = orders.Where(o => o.Status is OrderStatus.Ready or OrderStatus.Completed).OrderByDescending(o => o.ReadyAt).FirstOrDefault(),
-            CompletedRevenue = orders.Where(o => o.Status == OrderStatus.Completed).Sum(o => o.Total),
-        };
-    }
-
     private async Task RunMachineAsync(int machineId, CancellationToken ct)
     {
         try

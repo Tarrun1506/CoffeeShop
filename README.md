@@ -12,11 +12,11 @@ CoffeeShopApp
 ├── Events          Order-ready notification event
 ├── Exceptions      Storage and business-operation errors
 ├── Helpers         Console coordination, logging, and password hashing
-├── Models          Users, coffee, orders, machines, inventory, dashboard snapshot
+├── Models          Users, coffee, orders, machines, and inventory
 ├── Repository      Small JSON-backed data access operations
 ├── Services        Business rules, machine workers, and notification routing
 ├── Storage         JSON storage abstraction and implementation
-└── Views           Validated console input, dashboard, customer, and admin views
+└── Views           Console menus, validated input, customer, and admin views
 ```
 
 ## Application flow
@@ -26,7 +26,7 @@ CoffeeShopApp
 - Two asynchronous machine workers divide an order into individual servings, so both machines can prepare a large order at the same time. Espresso/Cappuccino/Latte preparation takes 5/10/15 seconds per serving after sourcing. The order becomes Ready when every serving finishes.
 - Cancellation and the transition to Preparing are synchronized; only orders still in Placed status can be cancelled.
 - Order-ready notifications use a delegate selected as console, email simulation, or SMS simulation.
-- The fixed top dashboard refreshes machine availability, order counts, active orders, and completed sales while the console menus remain below it.
+- The console prints straightforward menus and operation results without a live dashboard.
 - Admin views include all orders, preparing/completed/today's orders, machine status, live preparation monitoring, and inventory restocking.
 - Passwords are stored as salted PBKDF2 hashes. Interrupted preparing orders are returned to the queue when the app restarts.
 

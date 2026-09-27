@@ -12,7 +12,7 @@ internal static class Program
 {
     private static async Task Main()
     {
-        Console.Title = "Coffee Shop - Live Operations";
+        Console.Title = "Coffee Shop";
         Console.OutputEncoding = System.Text.Encoding.UTF8;
         Console.InputEncoding = System.Text.Encoding.UTF8;
 
@@ -35,9 +35,8 @@ internal static class Program
             notificationService.Subscribe(coffeeShopService);
 
             await using (coffeeShopService)
-            await using (DashboardView dashboardView = new(coffeeShopService, logger))
             {
-                ICoffeeShopController controller = new CoffeeShopController(coffeeShopService, dashboardView, new UserView(), new CoffeeView(), new AdminView(), logger);
+                ICoffeeShopController controller = new CoffeeShopController(coffeeShopService, new ConsoleMenuView(), new UserView(), new CoffeeView(), new AdminView(), logger);
                 await controller.StartAsync();
             }
         }

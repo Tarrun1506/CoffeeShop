@@ -19,6 +19,5 @@ public interface ICoffeeShopService : IAsyncDisposable
     Task<decimal> GetCustomerSpendingAsync(Guid customerId, CancellationToken ct = default);
     Task<IReadOnlyList<CoffeeMachine>> GetMachinesAsync(CancellationToken ct = default);
     Task<IReadOnlyList<InventoryItem>> GetInventoryAsync(CancellationToken ct = default);
-    Task<CoffeeShopSnapshot> GetDashboardSnapshotAsync(CancellationToken ct = default);
     Task RestockAsync(CancellationToken ct = default);
 }
